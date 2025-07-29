@@ -1,11 +1,13 @@
+require('dotenv').config(); // Carrega variáveis do arquivo .env (em desenvolvimento)
+
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-const PORT = 5000;
-const SECRET = 'meu_segredo_supersecreto';
+const PORT = process.env.PORT || 5000;
+const SECRET = process.env.JWT_SECRET || 'meu_segredo_local'; // Mais seguro
 
 app.use(cors());
 app.use(express.json());
@@ -46,7 +48,7 @@ app.post('/login', async (req, res) => {
   res.status(200).json({ token });
 });
 
-// Rota protegida (opcional)
+// Rota protegida
 app.get('/profile', (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
