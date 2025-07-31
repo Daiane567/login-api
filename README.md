@@ -31,27 +31,24 @@ Demonstrar conhecimento e domínio em testes de APIs RESTful utilizando o Postma
 
 ### 📌 1. Registro de usuário com sucesso
 
-![Registro](./evidencias/registro-sucesso.png)
+![Registro](https://github.com/Daiane567/login-api/blob/main/evidencias/postregistro.png)
 
 ---
 
 ### 📌 2. Login com retorno de token JWT
 
-![Login](./evidencias/login-sucesso.png)
-
 ---
 
 ### 📌 3. Acesso a rota protegida usando o token
 
-![Profile](./evidencias/profile-autenticado.png)
+![Profile](https://github.com/Daiane567/login-api/blob/main/evidencias/token.png)
 
 ---
 
-## 📁 Coleção Postman
+## 📁 Swagger API
 
-Você pode importar a coleção no Postman para repetir os testes:
 
-- 📥 [Download da coleção (JSON)](./postman/colecao-autenticacao.postman_collection.json)
+- 📥 [Swagger API](https://login-api-incn.onrender.com/api-docs/#/default/post_register)
 
 ---
 
