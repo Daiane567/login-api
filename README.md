@@ -57,7 +57,6 @@ Demonstrar conhecimento e domínio em testes de APIs RESTful utilizando o Postma
 Se quiser testar por conta própria:
 
 ```bash
-git clone https://github.com/seu-usuario/api-autenticacao.git
-cd api-autenticacao
+git clone https://github.com/Daiane567/login-api.git
 npm install
 npm run dev
