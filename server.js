@@ -1,20 +1,45 @@
-require('dotenv').config(); // Carrega variáveis do arquivo .env (em desenvolvimento)
+require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { swaggerUi, swaggerSpec } = require('./swagger'); // IMPORTA o Swagger
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const SECRET = process.env.JWT_SECRET || 'meu_segredo_local'; // Mais seguro
+const SECRET = process.env.JWT_SECRET || 'meu_segredo_local';
 
 app.use(cors());
 app.use(express.json());
 
 const users = []; // Armazenamento em memória
 
-// Rota de registro
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     summary: Registra um novo usuário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Usuário registrado com sucesso
+ *       400:
+ *         description: Usuário já existe
+ */
 app.post('/register', async (req, res) => {
   const { email, password } = req.body;
 
@@ -29,7 +54,33 @@ app.post('/register', async (req, res) => {
   res.status(201).json({ message: 'Usuário registrado com sucesso' });
 });
 
-// Rota de login
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Realiza o login e retorna um token JWT
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido
+ *       400:
+ *         description: Usuário não encontrado
+ *       401:
+ *         description: Senha incorreta
+ */
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -48,7 +99,19 @@ app.post('/login', async (req, res) => {
   res.status(200).json({ token });
 });
 
-// Rota protegida
+/**
+ * @swagger
+ * /profile:
+ *   get:
+ *     summary: Acessa o perfil do usuário autenticado
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Acesso autorizado
+ *       401:
+ *         description: Token ausente ou inválido
+ */
 app.get('/profile', (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -64,6 +127,10 @@ app.get('/profile', (req, res) => {
   }
 });
 
+// 🔗 Swagger documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.listen(PORT, () => {
   console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
+  console.log(`📚 Swagger: http://localhost:${PORT}/api-docs`);
 });
